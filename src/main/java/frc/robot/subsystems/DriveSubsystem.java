@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,9 +18,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.reduxrobotics.sensors.canandgyro.Canandgyro;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+@Logged
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -44,7 +47,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   //private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
-  private final Pigeon2 m_gyro = new Pigeon2(0);
+  //private final Pigeon2 m_gyro = new Pigeon2(0);
+  private final Canandgyro m_gyro = new Canandgyro(0);
+  
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -168,7 +173,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
+    m_gyro.setYaw(0);
   }
 
   /**
